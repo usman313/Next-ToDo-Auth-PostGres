@@ -29,12 +29,7 @@ const options = {
           },
         ];
 
-        const foundUser = users.find((user) => {
-          return (
-            user.email === credentials.email &&
-            user.password === credentials.password
-          );
-        });
+        const foundUser = await fetch(`${process.env.NEXTAUTH_URL}api/find-user?email=${credentials?.email}&password=${credentials.password}`)
         if (foundUser) {
           const customResponse = {
             success: true,
