@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 function SignUp() {
     return (
-        <form className="flex max-w-2xl flex-col gap-4 bg-white p-10 rounded-md shadow-md">
+        <form className=" m-24 flex max-w-2xl flex-col gap-4 bg-white p-10 rounded-md shadow-md">
             <div>
                 <div className="mb-2 block">
                     <Label

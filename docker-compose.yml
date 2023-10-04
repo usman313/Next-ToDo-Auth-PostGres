@@ -1,0 +1,9 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_DB: todo_app
+      POSTGRES_HOST_AUTH_METHOD: trust
