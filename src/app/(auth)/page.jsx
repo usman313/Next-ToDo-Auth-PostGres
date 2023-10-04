@@ -41,7 +41,7 @@ export default function Home() {
     return <Loader color='##b3d4ff' loading={checkUserLogin}/>
   }
   return (
-    <div className='p-24'>
+    <div className='m-24'>
       <form 
         onSubmit={submitHandler}
         className="flex max-w-2xl flex-col gap-4 bg-white p-10 rounded-md shadow-md"
