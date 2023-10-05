@@ -54,7 +54,7 @@ const options = {
     },
   },
   pages: {
-    signIn: "/",
+    signIn: "/home",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
