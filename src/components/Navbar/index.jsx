@@ -28,6 +28,7 @@ function Navbar() {
                                             width: '50px',
                                             height: '50px'
                                         }}
+                                        priority
                                     />
                                 </div>
                                 <div>

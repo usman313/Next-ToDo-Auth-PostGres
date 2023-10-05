@@ -1,24 +1,24 @@
 'use client'
 
-import ClipLoader from "react-spinners/ClipLoader";
+import { Oval } from "react-loader-spinner"
 
-const override = {
-    display: "block",
-    margin: "0 auto",
-    borderColor: "red",
-  };
 function Loader({
-    color,
+    color='#0dbada',
     loading=false,
 }) {
   return (
-    <ClipLoader
-        color={color}
-        loading={loading}
-        cssOverride={override}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
+    <Oval
+      height={80}
+      width={80}
+      color={color}
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={loading}
+      ariaLabel='oval-loading'
+      secondaryColor={color}
+      strokeWidth={2}
+      strokeWidthSecondary={2}
+
     />
   )
 }

@@ -15,5 +15,13 @@ export async function GET(request){
     count: result?.rowCount,
     status: 200
   }
-  return NextResponse.json(resp, { status: 200 });
+  return NextResponse.json(resp, 
+    { 
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      } 
+    });
 }
