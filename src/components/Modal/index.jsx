@@ -14,7 +14,7 @@ function GenericModal({
     const router = useRouter()
 
     const editConfirmation = async ()=>{
-        const response = await fetch(`http://localhost:3000/api/edit-todo`,{
+        const response = await fetch(`https://next-to-do-auth-post-gres.vercel.app/api/edit-todo`,{
           method:'PUT',
           headers:{
             'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ function GenericModal({
         })
     }).then(()=>{
         setOpenModal(undefined)
-        const response = fetch(`http://localhost:3000/api/get-task-list`,{
+        const response = fetch(`https://next-to-do-auth-post-gres.vercel.app/api/get-task-list`,{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
