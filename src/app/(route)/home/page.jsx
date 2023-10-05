@@ -17,7 +17,7 @@ function Home() {
 
   useEffect(()=>{
     const getData = async ()=>{
-      const response = await fetch(`/api/get-task-list`,{
+      const response = await fetch(`https://next-to-do-auth-post-gres.vercel.app/api/get-task-list`,{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ function Home() {
   },[])
   const submitHandler = async (e) => {
     e.preventDefault();
-    const response = await fetch(`/api/add-todo`, {
+    const response = await fetch(`https://next-to-do-auth-post-gres.vercel.app/api/add-todo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
