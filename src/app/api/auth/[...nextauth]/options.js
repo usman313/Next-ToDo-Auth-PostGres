@@ -20,15 +20,6 @@ const options = {
           return null;
         }
 
-        const users = [
-          {
-            id: 1,
-            email: "admin@user.com",
-            password: "123456",
-            name: "Muhammad Usman",
-          },
-        ];
-
         const foundUser = await fetch(`${process.env.NEXTAUTH_URL}api/find-user?email=${credentials?.email}&password=${credentials.password}`)
         if (foundUser) {
           const customResponse = {
@@ -39,11 +30,9 @@ const options = {
 
           return customResponse;
         }
-        return null
       },
     }),
   ],
-
   
   pages: {
     signIn: "/",
