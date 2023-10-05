@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 export async function PUT(request){
     const{id, title, description, status} = await request.json()
-
     const result = await sql`UPDATE todo 
                             SET 
                                 title=${title}, 

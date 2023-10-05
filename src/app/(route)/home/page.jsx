@@ -13,6 +13,7 @@ function Home() {
   const [taskList, setTaskList] = useState()
   const [openModal, setOpenModal] = useState(undefined);
   const [deleteModal, setDeleteModal] = useState(undefined);
+  const [selectedTask, setSelectedTask] = useState()
 
   useEffect(()=>{
     const getData = async ()=>{
@@ -22,11 +23,11 @@ function Home() {
           'Content-Type': 'application/json',
         },
       });
-      console.log('response: ', response)
-      setTaskList(response)
+      const myTasks = await response.json()
+      setTaskList(myTasks?.data)
     }
     getData()
-  }, [])
+  },[])
   const submitHandler = async (e) => {
     e.preventDefault();
     const response = await fetch(`http://localhost:3000/api/add-todo`, {
@@ -67,38 +68,45 @@ return (
           </div>
           </form>
 
-        <div className=' bg-[#c4f1f9] my-3 shadow-lg rounded-md px-3 py-2 grid grid-cols-4'>
-          <div className=' col-span-3 place-items-center'>
-            <h3 className=' text-[#0dbada] text-center font-normal text-xl'>
-                Task 1
-            </h3>
-          </div>
-          <div className='flex gap-4'>
-            <Button
-              outline
-              pill
-            >
-              <RiDeleteBin6Line 
-                size={24} 
-                color='#e57eb5' 
-                onClick={() => setDeleteModal('delete-modal')}
-              />
-            </Button>
+          {taskList?.map((item) => {
+          return (
+              <div className=" bg-[#c4f1f9] my-3 shadow-lg rounded-md px-3 py-2 grid grid-cols-4">
+                <div className=" col-span-3 place-items-center">
+                  <h3 className=" text-[#0dbada] text-center font-normal text-xl">
+                    {item?.task}
+                  </h3>
+                </div>
+                <div className="flex gap-4">
+                  <Button outline pill>
+                    <RiDeleteBin6Line
+                      size={24}
+                      color="#e57eb5"
+                      onClick={() => {
+                        setDeleteModal("delete-modal")
+                        setSelectedTask(item)
+                      }}
+                    />
+                  </Button>
 
-            <Button
-              outline
-              pill
-              onClick={() => setOpenModal('edit-todo')}
-            >
-              <AiOutlineEdit size={24} color='#e57eb5' />
-            </Button>
-          </div>
-        </div>
+                  <Button
+                    outline
+                    pill
+                    onClick={() => {
+                      setOpenModal("edit-todo")
+                      setSelectedTask(item)
+                    }}
+                  >
+                    <AiOutlineEdit size={24} color="#e57eb5" />
+                  </Button>
+                </div>
+              </div>
+          );
+        })}
       </div>
       {openModal &&
         <GenericModal
           title='Title Here'
-          data={{title: 'title 1', description: 'Description'}}
+          data={selectedTask}
           openModal={openModal}
           setOpenModal={setOpenModal}
         />
@@ -106,6 +114,7 @@ return (
       {setDeleteModal &&
         <ConfirmationModal
           title='Delete Todo'
+          data={selectedTask}
           openModal={deleteModal}
           setOpenModal={setDeleteModal}
         />
