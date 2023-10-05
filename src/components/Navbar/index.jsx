@@ -24,6 +24,10 @@ function Navbar() {
                                         alt=' '
                                         width={50}
                                         height={50}
+                                        style={{
+                                            width: '50px',
+                                            height: '50px'
+                                        }}
                                     />
                                 </div>
                                 <div>

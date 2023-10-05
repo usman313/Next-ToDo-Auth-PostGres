@@ -1,7 +1,6 @@
 'use client'
 
-import { Toaster } from '@/components';
-import { Button, Checkbox, Label, TextInput } from 'flowbite-react';
+import { Button, Label, TextInput } from 'flowbite-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
