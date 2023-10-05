@@ -38,23 +38,24 @@ const options = {
           };
 
           return customResponse;
-        } else return null;
+        }
+        return null
       },
     }),
   ],
 
-  callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user };
-    },
-    async session({ session, token, user }) {
-      session.user = token;
+  // callbacks: {
+  //   async jwt({ token, user }) {
+  //     return { ...token, ...user };
+  //   },
+  //   async session({ session, token }) {
+  //     session.user = token;
 
-      return session;
-    },
-  },
+  //     return session;
+  //   },
+  // },
   pages: {
-    signIn: "/home",
+    signIn: "/",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
