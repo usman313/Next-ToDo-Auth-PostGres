@@ -6,7 +6,6 @@ export async function GET(request){
     const {searchParams} = new URL(request.url)
     const email = searchParams.get('email');
     const pass = searchParams.get('password');
-    console.log('recieved email: ', email)
     try{
         if(!email || !pass){
             throw new Error("Credentials required")

@@ -3,5 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function GET(request){
   const result = await sql`SELECT * from todo`
-  return NextResponse.json({result}, {status: 200})
+  const resp = {
+    data: result?.rows,
+    count: result?.rowCount,
+    status: 200
+  }
+  console.log('result', resp)
+  return NextResponse.json(resp, { status: 200 });
 }
