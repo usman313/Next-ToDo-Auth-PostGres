@@ -30,10 +30,21 @@ const options = {
 
           return customResponse;
         }
+        return null
       },
     }),
   ],
-  
+
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token }) {
+      session.user = token;
+
+      return session;
+    },
+  },
   pages: {
     signIn: "/",
   },
