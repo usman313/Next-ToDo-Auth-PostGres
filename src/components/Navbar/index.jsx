@@ -11,7 +11,7 @@ function Navbar() {
     return (
         <nav className="bg-white border-gray-200 dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a href="https://localhost:3000/home" className="flex items-center">
+                <a href="/home" className="flex items-center">
                     <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"><BsMeta size={50} color='#619efa'/></span>
                 </a>
                 <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
