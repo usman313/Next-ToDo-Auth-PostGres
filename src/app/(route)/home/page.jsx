@@ -7,14 +7,26 @@ import {
 } from 'flowbite-react';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEdit } from "react-icons/ai";
+import { ConfirmationModal, GenericModal } from '@/components';
 
 function Home() {
   const [task, setTask]= useState()
   const [taskList, setTaskList] = useState()
+  const [openModal, setOpenModal] = useState(undefined);
+  const [deleteModal, setDeleteModal] = useState(undefined);
+
   useEffect(()=>{
-    const response = fetch(`http://localhost:3000/api/get-task-list`);
-    setTaskList(response)
-    console.log('response: ', response?.data)
+    const getData = async ()=>{
+      const response = await fetch(`http://localhost:3000/api/get-task-list`,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('response: ', response)
+      setTaskList(response)
+    }
+    getData()
   }, [])
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -67,18 +79,38 @@ return (
               outline
               pill
             >
-              <RiDeleteBin6Line size={24} color='#e57eb5' />
+              <RiDeleteBin6Line 
+                size={24} 
+                color='#e57eb5' 
+                onClick={() => setDeleteModal('delete-modal')}
+              />
             </Button>
 
             <Button
               outline
               pill
+              onClick={() => setOpenModal('edit-todo')}
             >
               <AiOutlineEdit size={24} color='#e57eb5' />
             </Button>
           </div>
         </div>
       </div>
+      {openModal &&
+        <GenericModal
+          title='Title Here'
+          data={{title: 'title 1', description: 'Description'}}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+        />
+      }
+      {setDeleteModal &&
+        <ConfirmationModal
+          title='Delete Todo'
+          openModal={deleteModal}
+          setOpenModal={setDeleteModal}
+        />
+      }
     </div>
   )
 }
