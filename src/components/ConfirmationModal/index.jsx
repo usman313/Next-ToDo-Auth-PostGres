@@ -9,7 +9,7 @@ function ConfirmationModal({
     data
 }) {
   const deleteTask = async ()=>{
-    const reponse = await fetch(`https://next-to-do-auth-post-gres.vercel.app/api/delete-todo`,{
+    const reponse = await fetch(`/app/api/delete-todo`,{
       method:'DELETE',
       headers: {
         'Content-Type': 'application/json',

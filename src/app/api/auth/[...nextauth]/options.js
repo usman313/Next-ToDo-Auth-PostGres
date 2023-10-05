@@ -20,7 +20,7 @@ const options = {
           return null;
         }
 
-        const foundUser = await fetch(`${process.env.NEXTAUTH_URL}api/find-user?email=${credentials?.email}&password=${credentials.password}`)
+        const foundUser = await fetch(`/api/find-user?email=${credentials?.email}&password=${credentials.password}`)
         if (foundUser) {
           const customResponse = {
             success: true,

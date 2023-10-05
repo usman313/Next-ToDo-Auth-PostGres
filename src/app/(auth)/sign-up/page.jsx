@@ -12,7 +12,7 @@ function SignUp() {
 
     const submitHandler= async (e)=>{
         e.preventDefault();
-        const response = await fetch(`https://next-to-do-auth-post-gres.vercel.app/api/add-user`, {
+        const response = await fetch(`/app/api/add-user`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
