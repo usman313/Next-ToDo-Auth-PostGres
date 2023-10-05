@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { 
   Button, 
   TextInput 
@@ -10,18 +10,25 @@ import { AiOutlineEdit } from "react-icons/ai";
 
 function Home() {
   const [task, setTask]= useState()
-  const submitHandler = ()=>{
-    const response = fetch(`${process.env.NEXTAUTH_URL}/add-todo`, {
-      method: POST,
+  const [taskList, setTaskList] = useState()
+  useEffect(()=>{
+    const response = fetch(`http://localhost:3000/api/get-task-list`);
+    setTaskList(response)
+    console.log('response: ', response?.data)
+  }, [])
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`http://localhost:3000/api/add-todo`, {
+      method: 'POST',
       headers: {
-        'Content-Type': 'Application/JSON',
+        'Content-Type': 'application/json',
       },
-      body: {
-        task: 'task'
-      }
-    })
+      body: JSON.stringify({
+        task: task,
+      }),
+    });
   }
-  return (
+return (
     <div className='w-full flex items-center justify-center px-48 py-14'>
       <div className=' w-full flex flex-col rounded-md shadow-lg bg-[#edfcfd] p-5'>
         <div className=' bg-white rounded-md p-2 mb-3'>
@@ -38,6 +45,7 @@ function Home() {
                 placeholder="Write new to-do"
                 required
                 type="text"
+                value={task}
                 onChange={(e)=>setTask(e.target.value)}
                 className=' h-full'
               />
@@ -46,7 +54,7 @@ function Home() {
                 New
               </Button>
           </div>
-        </form>
+          </form>
 
         <div className=' bg-[#c4f1f9] my-3 shadow-lg rounded-md px-3 py-2 grid grid-cols-4'>
           <div className=' col-span-3 place-items-center'>
