@@ -24,7 +24,6 @@ function SignUp() {
             }),
         })
         if(response.status === 200){
-            <Toaster type="success" message="User added successfully!" /> 
             router.push('/')
         }
     }
