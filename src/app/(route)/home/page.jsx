@@ -70,7 +70,7 @@ return (
 
           {taskList?.map((item) => {
           return (
-              <div className=" bg-[#c4f1f9] my-3 shadow-lg rounded-md px-3 py-2 grid grid-cols-4">
+              <div key={item?.id} className=" bg-[#c4f1f9] my-3 shadow-lg rounded-md px-3 py-2 grid grid-cols-4">
                 <div className=" col-span-3 place-items-center">
                   <h3 className=" text-[#0dbada] text-center font-normal text-xl">
                     {item?.task}
