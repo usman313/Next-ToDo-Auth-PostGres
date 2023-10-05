@@ -26,7 +26,7 @@ export default function Home() {
       email : email ,
       password : password,
       redirect: true,
-      callbackUrl: '/home'
+      callbackUrl: '/'
     })
   }
   useEffect(()=>{
