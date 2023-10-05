@@ -1,11 +1,36 @@
 'use client'
 
+import { Toaster } from '@/components';
 import { Button, Checkbox, Label, TextInput } from 'flowbite-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 function SignUp() {
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+    const router = useRouter()
+
+    const submitHandler= async (e)=>{
+        e.preventDefault();
+        const response = await fetch(`http://localhost:3000/api/add-user`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        })
+        if(response.status === 200){
+            <Toaster type="success" message="User added successfully!" /> 
+            router.push('/')
+        }
+    }
     return (
-        <form className=" m-24 flex max-w-2xl flex-col gap-4 bg-white p-10 rounded-md shadow-md">
+        <form onSubmit={submitHandler} >
+            <div className=" m-24 flex max-w-2xl flex-col gap-4 bg-white p-10 rounded-md shadow-md">
             <div>
                 <div className="mb-2 block">
                     <Label
@@ -14,11 +39,13 @@ function SignUp() {
                     />
                 </div>
                 <TextInput
-                    id="email2"
+                    id="email"
                     placeholder="name@flowbite.com"
                     required
                     shadow
                     type="email"
+                    onChange={(e)=>setEmail(e.target.value)}
+                    value={email}
                 />
             </div>
             <div>
@@ -29,24 +56,12 @@ function SignUp() {
                     />
                 </div>
                 <TextInput
-                    id="password2"
+                    id="password"
                     required
                     shadow
                     type="password"
-                />
-            </div>
-            <div>
-                <div className="mb-2 block">
-                    <Label
-                        htmlFor="repeat-password"
-                        value="Repeat password"
-                    />
-                </div>
-                <TextInput
-                    id="repeat-password"
-                    required
-                    shadow
-                    type="password"
+                    onChange={(e)=>setPassword(e.target.value)}
+                    value={password}
                 />
             </div>
             <div className="flex justify-center items-center gap-2">
@@ -62,6 +77,7 @@ function SignUp() {
             <Button type="submit">
                 Register new account
             </Button>
+            </div>
         </form>
     )
 }
