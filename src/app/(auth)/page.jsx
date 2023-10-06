@@ -26,7 +26,7 @@ export default function Home() {
       email : email ,
       password : password,
       redirect: true,
-      callbackUrl: '/'
+      callbackUrl: ''
     })
   }
   useEffect(()=>{
@@ -38,7 +38,7 @@ export default function Home() {
     }
   }, [session, router])
   if(checkUserLogin){
-    return <Loader color='##b3d4ff' loading={checkUserLogin}/>
+    return <Loader color='##b3d4ff' visible={checkUserLogin}/>
   }
   return (
     <div className='m-24'>
