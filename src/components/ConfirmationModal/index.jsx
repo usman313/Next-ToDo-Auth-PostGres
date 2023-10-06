@@ -9,7 +9,7 @@ function ConfirmationModal({
     data
 }) {
   const deleteTask = async ()=>{
-    const reponse = await fetch(`http://127.0.0.1:3000/api/delete-todo`,{
+    const reponse = await fetch(`/api/delete-todo`,{
       method:'DELETE',
       headers: {
         'Content-Type': 'application/json',
