@@ -15,5 +15,6 @@ export async function GET(request){
     count: result?.rowCount,
     status: 200
   }
+  console.log('get tasks result: ', resp)
   return NextResponse.json(resp, { status: 200 });
 }

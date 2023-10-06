@@ -20,7 +20,7 @@ const options = {
           return null;
         }
 
-        const foundUser = await fetch(`/api/find-user?email=${credentials?.email}&password=${credentials.password}`)
+        const foundUser = await fetch(`http://127.0.0.1:3000/api/find-user?email=${credentials?.email}&password=${credentials.password}`)
         if (foundUser) {
           const customResponse = {
             success: true,
