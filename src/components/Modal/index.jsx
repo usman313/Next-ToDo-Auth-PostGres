@@ -27,7 +27,7 @@ function GenericModal({
         })
     }).then(()=>{
         setOpenModal(undefined)
-        const response = fetch(`/app/api/get-task-list`,{
+        const response = fetch(`/api/get-task-list`,{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
