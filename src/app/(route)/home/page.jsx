@@ -17,7 +17,7 @@ function Home() {
 
   useEffect(()=>{
     const getData = async ()=>{
-      const response = await fetch(`http://127.0.0.1:3000/api/get-task-list`,{
+      const response = await fetch(`/api/get-task-list`,{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ function Home() {
   },[])
   const submitHandler = async (e) => {
     e.preventDefault();
-    const response = await fetch(`http://127.0.0.1:3000/api/add-todo`, {
+    const response = await fetch(`/api/add-todo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
