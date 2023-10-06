@@ -1,26 +1,23 @@
 'use client'
+import { RotatingLines } from 'react-loader-spinner';
 
-import ClipLoader from "react-spinners/ClipLoader";
-
-const override = {
-    display: "block",
-    margin: "0 auto",
-    borderColor: "red",
-  };
 function Loader({
-    color,
-    loading=false,
+    color='#002B5B',
+    width='100',
+    strokeWidth='5',
+    visible,
+    ...props
 }) {
-  return (
-    <ClipLoader
-        color={color}
-        loading={loading}
-        cssOverride={override}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-    />
-  )
+    return (
+        <RotatingLines
+            strokeColor = {color}
+            width={width}
+            strokeWidth={strokeWidth}
+            animationDuration='0.75'
+            visible={visible}
+            {...props}
+        />
+    )
 }
 
-export default Loader 
+export default Loader;
