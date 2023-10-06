@@ -14,7 +14,7 @@ function GenericModal({
     const router = useRouter()
 
     const editConfirmation = async ()=>{
-        const response = await fetch(`/app/api/edit-todo`,{
+        const response = await fetch(`http://127.0.0.1:3000/api/edit-todo`,{
           method:'PUT',
           headers:{
             'Content-Type': 'application/json',

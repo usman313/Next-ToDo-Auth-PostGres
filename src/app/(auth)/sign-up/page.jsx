@@ -12,7 +12,7 @@ function SignUp() {
 
     const submitHandler= async (e)=>{
         e.preventDefault();
-        const response = await fetch(`/app/api/add-user`, {
+        const response = await fetch(`http://127.0.0.1:3000/api/add-user`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
