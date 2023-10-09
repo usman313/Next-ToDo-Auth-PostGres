@@ -16,21 +16,25 @@ import { Loader } from '@/components';
 export default function Home() {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+  const [isLoading, setIsLoading] = useState(false)
   const [checkUserLogin, setCheckUserLogin] = useState(true)
   const session = useSession();
   const router = useRouter()
 
   const submitHandler = async (e)=>{
+    setIsLoading(true)
     e.preventDefault()
     const response = await signIn('credentials', {
       email : email ,
       password : password,
       redirect: true,
-      callbackUrl: ''
+      callbackUrl: '/'
     })
+    console.log('response of sign in submission: ', response)
   }
   useEffect(()=>{
     if(session && session.status === 'authenticated'){
+      setIsLoading(false)
       setCheckUserLogin(false);
       router.push("/home");
     } else {
@@ -38,7 +42,11 @@ export default function Home() {
     }
   }, [session, router])
   if(checkUserLogin){
-    return <Loader color='##b3d4ff' visible={checkUserLogin}/>
+    return (
+      <div className=' h-screen w-full justify-center items-center'>
+        <Loader color='#b3d4ff' visible={checkUserLogin}/>
+      </div>
+    )
   }
   return (
     <div className='m-24'>
@@ -72,6 +80,7 @@ export default function Home() {
             id="password"
             required
             type="password"
+            placeholder='Enter Password'
             onChange={(e)=>{setPassword(e.target.value)}}
           />
         </div>
@@ -94,7 +103,8 @@ export default function Home() {
           </div>
         </div>
         <Button type="submit">
-          Sign in
+          {isLoading ? <Loader width='25' />
+          : "Sign in"}
         </Button>
       </form>
     </div>
