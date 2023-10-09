@@ -6,14 +6,15 @@ import {
 } from 'flowbite-react';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEdit } from "react-icons/ai";
-import { ConfirmationModal, GenericModal } from '@/components';
+import { ConfirmationModal, GenericModal, Loader } from '@/components';
 
 function Home() {
   const [task, setTask]= useState()
   const [taskList, setTaskList] = useState()
   const [openModal, setOpenModal] = useState(undefined);
   const [deleteModal, setDeleteModal] = useState(undefined);
-  const [selectedTask, setSelectedTask] = useState()
+  const [selectedTask, setSelectedTask] = useState();
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(()=>{
     const getData = async ()=>{
@@ -25,6 +26,7 @@ function Home() {
       });
       const myTasks = await response.json()
       setTaskList(myTasks?.data)
+      setIsLoading(false)
     }
     getData()
   },[])
@@ -68,40 +70,43 @@ return (
           </div>
           </form>
 
-          {taskList?.map((item) => {
-          return (
-              <div key={item?.id} className=" bg-[#c4f1f9] my-3 shadow-lg rounded-md px-3 py-2 grid grid-cols-4">
-                <div className=" col-span-3 place-items-center">
-                  <h3 className=" text-[#0dbada] flex items-center justify-center font-normal text-xl">
-                    {item?.task}
-                  </h3>
-                </div>
-                <div className="flex gap-4">
-                  <Button outline pill>
-                    <RiDeleteBin6Line
-                      size={24}
-                      color="#e57eb5"
+          {isLoading ? <div className='flex justify-center my-3'>
+                        <Loader width='60'/>
+                      </div>
+          : taskList?.map((item) => {
+            return (
+                <div key={item?.id} className=" bg-[#c4f1f9] my-3 shadow-lg rounded-md px-3 py-2 grid grid-cols-4">
+                  <div className=" col-span-3 place-items-center">
+                    <h3 className=" text-[#0dbada] flex items-center justify-center font-normal text-xl">
+                      {item?.task}
+                    </h3>
+                  </div>
+                  <div className="flex gap-4">
+                    <Button outline pill>
+                      <RiDeleteBin6Line
+                        size={24}
+                        color="#e57eb5"
+                        onClick={() => {
+                          setDeleteModal("delete-modal")
+                          setSelectedTask(item)
+                        }}
+                      />
+                    </Button>
+
+                    <Button
+                      outline
+                      pill
                       onClick={() => {
-                        setDeleteModal("delete-modal")
+                        setOpenModal("edit-todo")
                         setSelectedTask(item)
                       }}
-                    />
-                  </Button>
-
-                  <Button
-                    outline
-                    pill
-                    onClick={() => {
-                      setOpenModal("edit-todo")
-                      setSelectedTask(item)
-                    }}
-                  >
-                    <AiOutlineEdit size={24} color="#e57eb5" />
-                  </Button>
+                    >
+                      <AiOutlineEdit size={24} color="#e57eb5" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-          );
-        })}
+            );
+          })}
       </div>
       {openModal &&
         <GenericModal
