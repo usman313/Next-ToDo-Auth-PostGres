@@ -30,6 +30,19 @@ function Home() {
     }
     getData()
   },[])
+  
+  const moveNext = async ()=>{
+    setIsLoading(true)
+    const response = await fetch(`/api/get-task-list`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const myTasks = await response.json()
+    setTaskList(myTasks?.data)
+    setIsLoading(false)
+  }
   const submitHandler = async (e) => {
     e.preventDefault();
     const response = await fetch(`/api/add-todo`, {
@@ -40,7 +53,9 @@ function Home() {
       body: JSON.stringify({
         task: task,
       }),
-    });
+    }).finally(
+      moveNext()
+    );
   }
 return (
     <div className='w-full flex items-center justify-center px-48 py-14'>
@@ -114,6 +129,7 @@ return (
           data={selectedTask}
           openModal={openModal}
           setOpenModal={setOpenModal}
+          callback={moveNext}
         />
       }
       {setDeleteModal &&
@@ -122,6 +138,7 @@ return (
           data={selectedTask}
           openModal={deleteModal}
           setOpenModal={setDeleteModal}
+          callback={moveNext}
         />
       }
     </div>
