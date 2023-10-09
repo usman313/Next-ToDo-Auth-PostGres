@@ -1,20 +1,30 @@
 'use client'
 
+import { useState } from 'react';
 import { Button, Modal } from 'flowbite-react';
 import { AiFillDelete, AiFillWarning } from "react-icons/ai";
+
+import Loader from '../Loader'
 
 function ConfirmationModal({
     openModal, 
     setOpenModal,
-    data
+    data,
+    ...props
 }) {
+  const [isLoading, setIsLoading] = useState(false)
   const deleteTask = async ()=>{
+    setIsLoading(true)
     const reponse = await fetch(`/api/delete-todo`,{
       method:'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
       body : JSON.stringify({id: data?.id})
+    }).then(()=>{
+      setIsLoading(false)
+      setOpenModal(undefined)
+      props.callback()
     })
   }
   return (
@@ -33,7 +43,11 @@ function ConfirmationModal({
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={deleteTask}>
-            Delete
+          {isLoading ? <div className='flex justify-center my-3'>
+                            <Loader width='20'/>
+                        </div>
+                : 'Delete'
+            }
           </Button>
           <Button color="gray" onClick={() => setOpenModal(undefined)}>
             Cancel

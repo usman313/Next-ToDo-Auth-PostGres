@@ -4,16 +4,21 @@ import React, { useState } from 'react';
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 
+import Loader from '../Loader'
+
 function GenericModal({
     data,
     openModal,
     setOpenModal,
+    ...props
 }) {
     const [newTitle, setNewTitle] = useState(data?.title)
     const [newDescription, setNewDescription] = useState(data?.description)
+    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
 
     const editConfirmation = async ()=>{
+        setIsLoading(true)
         const response = await fetch(`/api/edit-todo`,{
           method:'PUT',
           headers:{
@@ -26,13 +31,9 @@ function GenericModal({
             status: 'In Progress'
         })
     }).then(()=>{
+        setIsLoading(false)
         setOpenModal(undefined)
-        const response = fetch(`/api/get-task-list`,{
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+        props.callback()
     })
     }
 
@@ -77,7 +78,11 @@ function GenericModal({
                         <Button
                             onClick={editConfirmation}
                         >
-                            Edit
+                            {isLoading ? <div className='flex justify-center my-3'>
+                                            <Loader width='20'/>
+                                        </div>
+                                : 'Edit'
+                            }
                         </Button>
                         <Button onClick={() => setOpenModal(undefined)}>Cancel</Button>
                     </div>
