@@ -7,18 +7,22 @@ import {
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEdit } from "react-icons/ai";
 import { ConfirmationModal, GenericModal, Loader } from '@/components';
+import { useSession } from 'next-auth/react';
 
 function Home() {
   const [task, setTask]= useState()
-  const [taskList, setTaskList] = useState()
+  const [taskList, setTaskList] = useState([])
   const [openModal, setOpenModal] = useState(undefined);
   const [deleteModal, setDeleteModal] = useState(undefined);
   const [selectedTask, setSelectedTask] = useState();
   const [isLoading, setIsLoading] = useState(true)
+  const session = useSession();
+  const studentId = session?.data?.user?.response?.data[0]?.id
+
 
   useEffect(()=>{
     const getData = async ()=>{
-      const response = await fetch(`/api/get-task-list`,{
+      const response = await fetch(`/api/get-task-list?std_id=${studentId}`,{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -33,7 +37,7 @@ function Home() {
   
   const moveNext = async ()=>{
     setIsLoading(true)
-    const response = await fetch(`/api/get-task-list`,{
+    const response = await fetch(`/api/get-task-list?std_id=${studentId}`,{
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -45,14 +49,16 @@ function Home() {
   }
   const submitHandler = async (e) => {
     e.preventDefault();
+    const payload = {
+      task: task,
+      std_id: studentId
+    }
     const response = await fetch(`/api/add-todo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        task: task,
-      }),
+      body: JSON.stringify({payload}),
     }).finally(
       moveNext()
     );
@@ -122,6 +128,11 @@ return (
                 </div>
             );
           })}
+          {!taskList.length && !isLoading &&
+            <h3 className='text-center my-3'>
+              No Task in list
+            </h3>
+          }
       </div>
       {openModal &&
         <GenericModal

@@ -28,7 +28,7 @@ const options = {
             const customResponse = {
               success: true,
               message: "Authentication successful",
-              result,
+              ...result,
             };
             return customResponse;
           }
