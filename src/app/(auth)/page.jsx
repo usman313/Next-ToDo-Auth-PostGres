@@ -30,7 +30,6 @@ export default function Home() {
       redirect: true,
       callbackUrl: '/'
     })
-    console.log('response of sign in submission: ', response)
   }
   useEffect(()=>{
     if(session && session.status === 'authenticated'){
