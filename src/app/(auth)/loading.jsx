@@ -1,5 +1,9 @@
 import Loader from '@/components/Loader'
 
 export default function Loading(){
-    return <Loader width={'100'}/>
+    return (
+        <div className=' h-screen w-full flex justify-center items-center'>
+            <Loader width={'100'} strokeWidth='15'/>
+        </div>
+    )
 }

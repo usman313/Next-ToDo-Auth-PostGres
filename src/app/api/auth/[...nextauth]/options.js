@@ -3,7 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 const options = {
   providers: [
     CredentialsProvider({
-      name: "Sign in",
       credentials: {
         email: {
           label: "Email",
@@ -12,7 +11,8 @@ const options = {
         },
         password: { 
           label: "Password", 
-          type: "password" 
+          type: "password",
+          placeholder: 'Enter Password'
         },
       },
       async authorize(credentials) {
@@ -20,17 +20,22 @@ const options = {
           return null;
         }
 
-        const foundUser = await fetch(`/api/find-user?email=${credentials?.email}&password=${credentials.password}`)
-        if (foundUser) {
-          const customResponse = {
-            success: true,
-            message: "Authentication successful",
-            foundUser,
-          };
+        try{
+          const foundUser = await fetch(`http://127.0.0.1:3000/api/find-user?email=${credentials?.email}&password=${credentials.password}`)
+          const result = await foundUser.json()
 
-          return customResponse;
+          if (foundUser.status === 200) {
+            const customResponse = {
+              success: true,
+              message: "Authentication successful",
+              result,
+            };
+            return customResponse;
+          }
+        }catch(error){
+          console.log("Error in login");
+          return null
         }
-        return null
       },
     }),
   ],
