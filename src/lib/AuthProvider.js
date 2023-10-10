@@ -2,8 +2,10 @@
 
 import { SessionProvider } from "next-auth/react";
 
-const AuthProvider = ({ children }) => {
-  return <SessionProvider>{children}</SessionProvider>;
+const AuthProvider = ({ children, session }) => {
+  return <SessionProvider session={session}>
+      {children}
+    </SessionProvider>;
 };
 
 export default AuthProvider;
