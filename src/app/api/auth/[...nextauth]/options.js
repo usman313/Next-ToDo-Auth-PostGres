@@ -1,4 +1,8 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
+import { createClient  } from "@vercel/postgres";
+import { toast } from "react-toastify";
 
 const options = {
   providers: [
@@ -38,17 +42,42 @@ const options = {
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET
+    })
   ],
-
   callbacks: {
+    async signIn({ profile }) {
+      console.log('profile: ', profile)
+      try{
+          const client = createClient();
+          await client.connect();
+          const foundUser = await client.sql`SELECT * from students WHERE email = ${profile.email}`
+          console.log('found user query: ', foundUser)
+          // if(found?.user?.rowCount === 0){
+          //   const addUser = await client.sql`INSERT INTO students (email, password) 
+          //                       VALUES (${profile?.email});`
+          //   console.log('sql result: ', addUser)
+          //   if(addUser?.rows?.length){
+          //     toast.success("User Added Successfully", {autoClose: 1000})
+          //   }
+          //   return(true)
+          // }
+          return true
+      }catch(error){
+        console.log('error found:')
+      }
+    },
     async jwt({ token, user }) {
-      debugger
       return { ...token, ...user };
     },
     async session({ session, token }) {
       session.user = token;
-      debugger
-
       return session;
     },
   },

@@ -7,7 +7,6 @@ export async function GET(request){
     const {searchParams} = new URL(request.url)
     const email = searchParams.get('email');
     const pass = searchParams.get('password');
-
     try{
         if(!email || !pass){
             throw new Error("Credentials required")
@@ -24,11 +23,12 @@ export async function GET(request){
                 status: 200,
                 count: foundUser?.rowCount
             }
-            return NextResponse.json({response}, {status: 200})
+            return NextResponse.json(foundUser?.rows[0], {status: 200})
         }else{
             return NextResponse.json({message: 'Invalid Email or Password', status: 401}, {status: 401})
         }
     }catch(error){
+        console.log('error', error)
         return NextResponse.json({error}, {status: 400})
     }
 }

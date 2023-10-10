@@ -6,6 +6,7 @@ export async function GET(request){
   await client.connect();
   const {searchParams} = new URL(request.url)
   const id = searchParams.get('std_id');
+  console.log('get task list: ', id)
   let result
   try{
     result = await client.sql`SELECT * from todo where std_id = ${id}`
