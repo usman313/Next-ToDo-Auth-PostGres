@@ -42,13 +42,10 @@ const options = {
 
   callbacks: {
     async jwt({ token, user }) {
-      debugger
       return { ...token, ...user };
     },
     async session({ session, token }) {
       session.user = token;
-      debugger
-
       return session;
     },
   },
