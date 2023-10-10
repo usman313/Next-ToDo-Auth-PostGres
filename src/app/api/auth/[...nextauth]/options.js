@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import { createClient  } from "@vercel/postgres";
 import { toast } from "react-toastify";
+import { encryptPassword } from "@/helpers/bcryptPassword";
 
 const options = {
   providers: [
@@ -20,6 +21,7 @@ const options = {
         },
       },
       async authorize(credentials) {
+        console.log('credentials: ', credentials)
         if (!credentials || !credentials.email || !credentials.password) {
           return null;
         }
@@ -52,25 +54,35 @@ const options = {
     })
   ],
   callbacks: {
-    async signIn({ profile }) {
-      console.log('profile: ', profile)
-      try{
+    async signIn({ profile, credentials }) {
+      // console.log('asdfa sdf asd fa sdf ads ')
+      if(credentials){
+        return true
+      }else if(profile){
+        try{
           const client = createClient();
           await client.connect();
           const foundUser = await client.sql`SELECT * from students WHERE email = ${profile.email}`
-          console.log('found user query: ', foundUser)
-          // if(found?.user?.rowCount === 0){
-          //   const addUser = await client.sql`INSERT INTO students (email, password) 
-          //                       VALUES (${profile?.email});`
-          //   console.log('sql result: ', addUser)
-          //   if(addUser?.rows?.length){
-          //     toast.success("User Added Successfully", {autoClose: 1000})
-          //   }
-          //   return(true)
-          // }
-          return true
-      }catch(error){
-        console.log('error found:')
+          console.log('found user query: ', foundUser?.rowCount)
+          if(foundUser?.rowCount === 0){
+            const encPassword = await encryptPassword('password')
+            console.log('enc pass result: ', encPassword)
+            const addUser = await client.sql`INSERT INTO students (id, email, password) 
+                                VALUES (${profile?.sub} ,${profile?.email}, ${encPassword});`
+            console.log('sql result: ', addUser)
+            if(addUser?.rows?.length){
+              toast.success("User Added Successfully", {autoClose: 1000})
+            }
+            return(true)
+          }else{
+            console.log('sadfasdf')
+            const dbUser = await client.sql`SELECT * FROM students WHERE email = ${profile.email}`
+            return true
+          }
+        }catch(error){
+          console.log('error found:', error)
+          return false
+        }
       }
     },
     async jwt({ token, user }) {
