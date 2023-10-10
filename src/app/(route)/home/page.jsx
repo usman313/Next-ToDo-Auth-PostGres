@@ -17,8 +17,7 @@ function Home() {
   const [selectedTask, setSelectedTask] = useState();
   const [isLoading, setIsLoading] = useState(true)
   const session = useSession();
-  const studentId = session?.data?.user?.response?.data[0]?.id
-
+  const studentId = session?.data?.user?.id
 
   useEffect(()=>{
     const getData = async ()=>{
