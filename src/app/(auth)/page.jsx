@@ -35,7 +35,7 @@ export default function Home() {
     })
   }
   useEffect(()=>{
-    console.log('created google session: ', session)
+    // console.log('created google session: ', session)
     if(session && session.status === 'authenticated'){
       setIsLoading(false)
       setCheckUserLogin(false);

@@ -32,7 +32,7 @@ function Navbar() {
                                 </div>
                                 <div>
                                     <p className=' capitalize text-base'>
-                                        {session?.data?.user?.email}
+                                        {session?.data?.user?.name}
                                     </p>
                                 </div>
                             </div>
