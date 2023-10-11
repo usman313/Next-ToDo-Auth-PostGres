@@ -18,11 +18,9 @@ function Home() {
   const [openModal, setOpenModal] = useState(undefined);
   const [deleteModal, setDeleteModal] = useState(undefined);
   const [selectedTask, setSelectedTask] = useState();
-  console.log('selected task: ', selectedTask)
   const [isLoading, setIsLoading] = useState(true)
   const session = useSession();
-  console.log('created google session: ', session)
-  const studentId = session?.data?.user?.id
+  const studentId = session?.data?.user?.std_id
 
   useEffect(() => {
     const getData = async () => {
@@ -33,7 +31,6 @@ function Home() {
         },
       });
       const myTasks = await response.json()
-      console.log('task list: ', myTasks)
       setTaskList(myTasks?.data)
       setIsLoading(false)
     }
@@ -69,9 +66,11 @@ function Home() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ payload }),
-    }).finally(()=>{
+    }).finally(()=>{ 
       toast.success("Tast Addedd Successfully", {autoClose: 1000})
-      moveNext()
+      setTimeout(() => {
+        moveNext()
+      }, 2000);
     });
   }
   return (

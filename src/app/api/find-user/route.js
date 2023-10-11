@@ -6,12 +6,12 @@ export async function GET(request){
     const {searchParams} = new URL(request.url)
     const email = searchParams.get('email');
     const pass = searchParams.get('password');
-    console.log('email: ', email)
     try{
         if(!email || !pass){
             throw new Error("Credentials required")
         }
         const foundUser = await sql`SELECT * from students WHERE email=${email};`
+        console.log('found user: ', foundUser)
         if(!foundUser){
             return NextResponse.json({message: 'User not found'}, {status: 200})
         }
