@@ -10,12 +10,13 @@ import { useState } from 'react';
 function SignUp() {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
+    const [username, setUsername] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("");
     const router = useRouter()
 
-    function notify(){
-        toast.success("User Registered!", {autoClose: 1000,});
+    function notify(message){
+        toast.success(message, {autoClose: 1000,});
     }
     const validatePassword = (newPassword) => {
         const specialCharsRegex = /[@#$%^&+=]/g;
@@ -41,11 +42,14 @@ function SignUp() {
             body: JSON.stringify({
                 email: email,
                 password: password,
+                username: username
             }),
         })
         setIsLoading(false)
+        const res = await response.json()
+        console.log('add user response: ', res)
         if(response.status === 200){
-            notify()
+            notify(res?.message)
             setTimeout(() => {
                 router.push('/');
             }, 2000);
@@ -77,14 +81,34 @@ function SignUp() {
                 <div className="mb-2 block">
                     <Label
                         htmlFor="password2"
-                        value="Your password"
+                        value="Your Username"
                     />
                 </div>
                 <TextInput
-                    id="password"
+                    id="username"
+                    required
+                    shadow
+                    type="text"
+                    placeholder='Enter Username'
+                    onChange={(e)=>{
+                        setUsername(e.target.value)
+                    }}
+                    value={username}
+                />
+            </div>
+            <div>
+                <div className="mb-2 block">
+                    <Label
+                        htmlFor="password2"
+                        value="Your Password"
+                    />
+                </div>
+                <TextInput
+                    id="userPass"
                     required
                     shadow
                     type="password"
+                    placeholder='Enter Password'
                     onChange={(e)=>{
                         setPassword(e.target.value)
                         validatePassword(e.target.value)
