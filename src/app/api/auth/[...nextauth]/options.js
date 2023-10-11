@@ -63,19 +63,19 @@ const options = {
           const client = createClient();
           await client.connect();
           const foundUser = await client.sql`SELECT * from students WHERE email = ${profile.email}`
-          console.log('found user query: ', foundUser?.rowCount)
+          // console.log('found user query: ', foundUser?.rowCount)
           if(foundUser?.rowCount === 0){
             const encPassword = await encryptPassword('password')
-            console.log('enc pass result: ', encPassword)
-            const addUser = await client.sql`INSERT INTO students (id, email, password) 
-                                VALUES (${profile?.sub} ,${profile?.email}, ${encPassword});`
-            console.log('sql result: ', addUser)
+            const addUser = await client.sql`INSERT INTO students (std_id, username, email, password) 
+                                            VALUES (
+                                              ${profile?.sub} ,${profile?.name}, 
+                                              ${profile?.email}, ${encPassword});`
             if(addUser?.rows?.length){
               toast.success("User Added Successfully", {autoClose: 1000})
             }
             return(true)
           }else{
-            console.log('sadfasdf')
+            // console.log('sadfasdf')
             const dbUser = await client.sql`SELECT * FROM students WHERE email = ${profile.email}`
             return true
           }
@@ -90,6 +90,7 @@ const options = {
     },
     async session({ session, token }) {
       session.user = token;
+      // console.log('session data: ', session)
       return session;
     },
   },

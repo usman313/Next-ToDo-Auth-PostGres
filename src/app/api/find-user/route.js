@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 import { decrypPassword } from "@/helpers/bcryptPassword";
-import e from "cors";
 
 export async function GET(request){
     const {searchParams} = new URL(request.url)
@@ -19,11 +18,6 @@ export async function GET(request){
         const decPass = await decrypPassword(pass, foundUser?.rows?.[0]?.password)
 
         if(decPass){
-            const response = {
-                data: foundUser?.rows,
-                status: 200,
-                count: foundUser?.rowCount
-            }
             return NextResponse.json(foundUser?.rows[0], {status: 200})
         }else{
             return NextResponse.json({message: 'Invalid Email or Password', status: 401}, {status: 401})
