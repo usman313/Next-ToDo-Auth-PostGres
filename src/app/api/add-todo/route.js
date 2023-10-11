@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(request){
     const {payload} = await request.json()
-    console.log('entered task with title', payload)
     try{
         if(!payload){
             throw new Error('Title, Description and Status are requried')
